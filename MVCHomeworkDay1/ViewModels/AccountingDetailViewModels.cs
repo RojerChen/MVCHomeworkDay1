@@ -11,7 +11,7 @@ namespace MVCHomeworkDay1.ViewModels
         public string Type { get; set; }
 
         //日期
-        public string Date { get; set; }
+        public DateTime Date { get; set; }
 
         //金額總計
         public decimal Sum { get; set; }
