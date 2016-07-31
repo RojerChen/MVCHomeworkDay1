@@ -14,6 +14,7 @@ namespace MVCHomeworkDay1.Controllers
             return View();
         }
 
+        [ChildActionOnly]
         public ActionResult Detail()
         {
            IList<ViewModels.AccountingDetailViewModels> models = new List<ViewModels.AccountingDetailViewModels>();
