@@ -8,6 +8,13 @@ namespace MVCHomeworkDay1.Controllers
 {
     public class AccountingController : Controller
     {
+        private Service.AccountingService _accountingService;
+
+        public AccountingController()
+        {
+            _accountingService = new Service.AccountingService();
+        }
+
         // GET: Accounting
         public ActionResult Index()
         {
@@ -17,31 +24,8 @@ namespace MVCHomeworkDay1.Controllers
         [ChildActionOnly]
         public ActionResult Detail()
         {
-            IList<ViewModels.AccountingDetailViewModels> models = GetAccountingDetail();
+            IList<ViewModels.AccountingDetailViewModels> models = _accountingService.GetAccountingDetail(5);
            return View(models);
-        }
-
-        public IList<ViewModels.AccountingDetailViewModels> GetAccountingDetail()
-        {
-            IList<ViewModels.AccountingDetailViewModels> accountingDateViewModelList = new List<ViewModels.AccountingDetailViewModels>();
-
-            using (var db = new Models.SkillTreeHomeworkEntities())
-            {
-                var list = db.AccountBook.Take(5).ToList();
-                foreach (var item in list)
-                {
-                    accountingDateViewModelList.Add(
-                        new ViewModels.AccountingDetailViewModels()
-                        {
-                            Date = item.Dateee,
-                            Note = item.Remarkkk,
-                            Sum = item.Amounttt,
-                            Type = item.Categoryyy.ToString()
-                        });
-                }
-
-            }
-            return accountingDateViewModelList;
         }
  
     }
