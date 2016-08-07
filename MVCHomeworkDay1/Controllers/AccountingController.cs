@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using MVCHomeworkDay1.Repositories;
 
 namespace MVCHomeworkDay1.Controllers
 {
@@ -12,7 +13,8 @@ namespace MVCHomeworkDay1.Controllers
 
         public AccountingController()
         {
-            _accountingService = new Service.AccountingService();
+            var unitOfWork = new EFUnitOfWork();
+            _accountingService = new Service.AccountingService(unitOfWork);
         }
 
         // GET: Accounting
@@ -24,7 +26,7 @@ namespace MVCHomeworkDay1.Controllers
         [ChildActionOnly]
         public ActionResult Detail()
         {
-            IList<ViewModels.AccountingDetailViewModels> models = _accountingService.GetAccountingDetail(5);
+            IList<ViewModels.AccountingDetailViewModels> models = _accountingService.SelectAll();
            return View(models);
         }
  

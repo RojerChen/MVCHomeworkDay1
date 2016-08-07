@@ -2,40 +2,34 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-
+using MVCHomeworkDay1.Repositories;
+using MVCHomeworkDay1.Models;
+using MVCHomeworkDay1.ViewModels;
 
 namespace MVCHomeworkDay1.Service
 {
-    public class AccountingService
+    public class AccountingService : Repository<Models.AccountBook>
     {
+        private readonly IRepository<Models.AccountBook> _accountingDetailRepo;
 
-        private readonly Models.SkillTreeHomeworkEntities _db;
-
-        public AccountingService()
+        public AccountingService(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
-            _db = new Models.SkillTreeHomeworkEntities();
+            _accountingDetailRepo = new Repository<Models.AccountBook>(unitOfWork);
         }
 
-        public IList<ViewModels.AccountingDetailViewModels> GetAccountingDetail(int count)
+        public IList<ViewModels.AccountingDetailViewModels> SelectAll()
         {
-            IList<ViewModels.AccountingDetailViewModels> accountingDateViewModelList = new List<ViewModels.AccountingDetailViewModels>();
-
-   
-            var list = _db.AccountBook.Take(count).ToList();
-
-            foreach (var item in list)
+            var source = _accountingDetailRepo.LookupAll();
+            var result = source.Select(item => new AccountingDetailViewModels()
             {
-                accountingDateViewModelList.Add(
-                    new ViewModels.AccountingDetailViewModels()
-                    {
-                        Date = item.Dateee,
-                        Note = item.Remarkkk,
-                        Sum = item.Amounttt,
-                        Type = item.Categoryyy.ToString()
-                    });
-            }
-            return accountingDateViewModelList;
+                Date = item.Dateee,
+                Note = item.Remarkkk,
+                Sum = item.Amounttt,
+                Type = item.Categoryyy.ToString()
+            }).ToList();
 
+            return result;
         }
+
     }
 }
