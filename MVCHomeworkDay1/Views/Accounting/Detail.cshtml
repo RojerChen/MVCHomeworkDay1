@@ -18,7 +18,17 @@
                 {
                     <tr>
                         <td>@detailCount</td>
-                        <td>@item.Type</td>
+                        <td>@{
+                                if (item.Type == "0")
+                                {
+                                    <span>支出</span>
+                                }
+                                else
+                                {
+                                    <span>收入</span>
+                                }
+                            }
+                        </td>
                         <td>@item.Date.ToString("yyyy-MM-dd")</td>
                         <td>@item.Sum</td>
                     </tr>
