@@ -17,31 +17,32 @@ namespace MVCHomeworkDay1.Controllers
         [ChildActionOnly]
         public ActionResult Detail()
         {
-           IList<ViewModels.AccountingDetailViewModels> models = new List<ViewModels.AccountingDetailViewModels>();
-           models.Add(new ViewModels.AccountingDetailViewModels(){
-               Type = "收入" ,
-               Date = DateTime.Now,
-               Sum = 10,
-               Note = String.Empty
-           });
-
-           models.Add(new ViewModels.AccountingDetailViewModels()
-           {
-               Type = "支出",
-               Date = DateTime.Now.AddDays(-1),
-               Sum = 20,
-               Note = String.Empty
-           });
-
-           models.Add(new ViewModels.AccountingDetailViewModels()
-           {
-               Type = "支出",
-               Date = DateTime.Now.AddDays(-2),
-               Sum = 30,
-               Note = String.Empty
-           });
-
+            IList<ViewModels.AccountingDetailViewModels> models = GetAccountingDetail();
            return View(models);
         }
+
+        public IList<ViewModels.AccountingDetailViewModels> GetAccountingDetail()
+        {
+            IList<ViewModels.AccountingDetailViewModels> accountingDateViewModelList = new List<ViewModels.AccountingDetailViewModels>();
+
+            using (var db = new Models.SkillTreeHomeworkEntities())
+            {
+                var list = db.AccountBook.Take(5).ToList();
+                foreach (var item in list)
+                {
+                    accountingDateViewModelList.Add(
+                        new ViewModels.AccountingDetailViewModels()
+                        {
+                            Date = item.Dateee,
+                            Note = item.Remarkkk,
+                            Sum = item.Amounttt,
+                            Type = item.Categoryyy.ToString()
+                        });
+                }
+
+            }
+            return accountingDateViewModelList;
+        }
+ 
     }
 }
