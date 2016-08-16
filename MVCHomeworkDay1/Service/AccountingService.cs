@@ -20,15 +20,14 @@ namespace MVCHomeworkDay1.Service
         public IList<ViewModels.AccountingDetailViewModels> SelectAll()
         {
             var source = _accountingDetailRepo.LookupAll();
-            var result = source.Select(item => new AccountingDetailViewModels()
-            {
-                Date = item.Dateee,
-                Note = item.Remarkkk,
-                Sum = item.Amounttt,
-                Type = item.Categoryyy.ToString()
-            }).ToList();
-
-            return result;
+            return source.Select(item => new AccountingDetailViewModels()
+                    {
+           
+                        Date = item.Dateee,
+                        Note = item.Remarkkk,
+                        Sum = item.Amounttt,
+                        Type = item.Categoryyy.ToString()
+                    }).ToList();
         }
 
     }

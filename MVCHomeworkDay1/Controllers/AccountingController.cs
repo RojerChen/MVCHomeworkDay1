@@ -26,9 +26,24 @@ namespace MVCHomeworkDay1.Controllers
         [ChildActionOnly]
         public ActionResult Detail()
         {
-            IList<ViewModels.AccountingDetailViewModels> models = _accountingService.SelectAll();
-           return View(models);
+           var  models = _accountingService.SelectAll().
+                                            OrderByDescending(x => x.Date).ToList();
+           return View(models); 
         }
- 
+
+        [HttpPost]
+        public ActionResult Create(ViewModels.AccountingDetailViewModels model)
+        {
+            _accountingService.Create(new Models.AccountBook()
+            {
+                Id = Guid.NewGuid(),
+                Amounttt = (int)model.Sum,
+                Categoryyy = Convert.ToInt32(model.Type),
+                Dateee = model.Date,
+                Remarkkk = model.Note
+            });
+            _accountingService.Commit();
+            return RedirectToAction("index");
+        }
     }
 }
