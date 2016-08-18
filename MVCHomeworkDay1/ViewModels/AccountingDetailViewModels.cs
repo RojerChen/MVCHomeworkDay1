@@ -25,4 +25,13 @@ namespace MVCHomeworkDay1.ViewModels
         [StringLength(100),Required(ErrorMessage="最多輸入100個字元")]        
         public string Note { get; set; }
     }
+
+    public enum AccountType
+    {
+        [Description("收入")]
+        income = 0 ,
+
+        [Description("支出")]
+        outcount = 1
+    }
 }

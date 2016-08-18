@@ -1,4 +1,7 @@
-﻿@model IList<MVCHomeworkDay1.ViewModels.AccountingDetailViewModels>
+﻿@using MVCHomeworkDay1.ViewModels;
+@using MVCHomeworkDay1.My;
+@model IList<MVCHomeworkDay1.ViewModels.AccountingDetailViewModels>
+           
 @{
     Layout = "";
 }
@@ -18,15 +21,14 @@
                 {
                     <tr>
                         <td>@detailCount</td>
-                        <td>@{
-                                if (item.Type == "0")
-                                {
-                                    <span>支出</span>
-                                }
-                                else
-                                {
-                                    <span>收入</span>
-                                }
+                        <td> 
+                            
+                            @{
+                                
+                                int enumValue = Convert.ToInt32(item.Type);
+                                string value = EnumExtension.GetDescription((AccountType)enumValue);
+                                string fontColor = ((AccountType)enumValue == AccountType.income) ? "blue" : "red";
+                                <span><font color="@fontColor">@value</font></span>
                             }
                         </td>
                         <td>@item.Date.ToString("yyyy-MM-dd")</td>
